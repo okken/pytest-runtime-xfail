@@ -1,11 +1,9 @@
 """
-pytest plugin, providing a `runtime_xfail` fixture,
-which is callable as `runtime_xfail()`,
-to allow runtime decisions to mark a test as `xfail`.
+pytest plugin, providing a `runtime_xfail` fixture, which is callable as `runtime_xfail()`, to allow runtime decisions to mark a test as `xfail`.
 """
 import pytest
 
-__version__ = "1.0.1"
+__version__ = "1.0.2"
 
 
 @pytest.fixture()
