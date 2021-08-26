@@ -99,3 +99,34 @@ def test_runtime_xfail_reason(runtime_xfail):
     runtime_xfail(reason="for demo")
     assert False  # this statement will be run
 ```
+
+**Output:**
+
+```
+(venv) $ pytest -v test_xfail.py 
+========================= test session starts ==========================
+collected 7 items                                                      
+
+test_xfail.py::test_marker_pass XPASS                            [ 14%]
+test_xfail.py::test_marker_fail XFAIL                            [ 28%]
+test_xfail.py::test_old_xfail_pass XFAIL                         [ 42%]
+test_xfail.py::test_old_xfail_fail XFAIL                         [ 57%]
+test_xfail.py::test_runtime_xfail_pass XPASS                     [ 71%]
+test_xfail.py::test_runtime_xfail_fail XFAIL                     [ 85%]
+test_xfail.py::test_runtime_xfail_reason XFAIL (for demo)        [100%]
+
+==================== 5 xfailed, 2 xpassed in 0.05s =====================
+(venv) $ pytest -v test_xfail.py -o xfail_strict=true
+========================= test session starts ==========================
+collected 7 items                                                      
+
+test_xfail.py::test_marker_pass FAILED                           [ 14%]
+test_xfail.py::test_marker_fail XFAIL                            [ 28%]
+test_xfail.py::test_old_xfail_pass XFAIL                         [ 42%]
+test_xfail.py::test_old_xfail_fail XFAIL                         [ 57%]
+test_xfail.py::test_runtime_xfail_pass FAILED                    [ 71%]
+test_xfail.py::test_runtime_xfail_fail XFAIL                     [ 85%]
+test_xfail.py::test_runtime_xfail_reason XFAIL (for demo)        [100%]
+
+===================== 2 failed, 5 xfailed in 0.04s =====================
+```
