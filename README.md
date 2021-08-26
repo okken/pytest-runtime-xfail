@@ -1,30 +1,6 @@
 # pytest-runtime-xfail
 
-pytest allows you to mark tests as expected to fail, or xfail, in two ways.
-
-1. `@pytest.mark.xfail`. This allows you to mark tests or test parametrizations as `xfail` during test collection time.
-   * pytest runs tests marked with `xfail` just like any other test.
-   * If the test fails, it will result in `XFAIL`. 
-   * If it passes, `XPASS`. Unless you have `xfail_strict=true` or `@pytest.mark.xfail(strict=True)`, in which case, passing xfail-marked tests will result in `FAIL`.
-      * This is useful to be alerted when an expected failing test starts to pass.
-   
-2. `pytest.xfail()`. If you need information only known at runtime to decide if `xfail` is appropriate, you can call `pytest.xfail()` during a test or fixture. 
-   * pytest runs the test as normal UNTIL `pytest.xfail()` is called.
-   * When `pytest.xfail()` is called, the test execution stops and the test results in `XFAIL`.
-   * The rest of the test is not run.
-   * There is no way to get `XPASS` from `pytest.xfail()`.
-   * `xfail_strict` has no effect.
-
-
-There are times where we want a combination of these behaviors.
-
-* We don't know until runtime if we should mark a test as `xfail`.
-* We want the test run.
-* We want the possibility of both `XFAIL` and `XPASS` results.
-* We want to be able to use `xfail_strict=true` to alert us when the test starts passing.
-
-
-This plugin fills that gap.
+pytest plugin, providing a `runtime_xfail` fixture, which is callable as `runtime_xfail()`, to allow runtime decisions to mark a test as `xfail`. 
 
 ## Installation
 
@@ -55,6 +31,48 @@ def foo(runtime_xfail):
 def test_something(foo):
   # ... the rest of your test
 ```
+
+## Reason this plugin is needed
+
+pytest allows you to mark tests as expected to fail, or xfail, in two ways.
+
+1. `@pytest.mark.xfail`. This allows you to mark tests or test parametrizations as `xfail` during test collection time.
+   * pytest runs tests marked with `xfail` just like any other test.
+   * If the test fails, it will result in `XFAIL`.
+   * If it passes, `XPASS`. Unless you have `xfail_strict=true` or `@pytest.mark.xfail(strict=True)`, in which case, passing xfail-marked tests will result in `FAIL`.
+      * This is useful to be alerted when an expected failing test starts to pass.
+
+2. `pytest.xfail()`. If you need information only known at runtime to decide if `xfail` is appropriate, you can call `pytest.xfail()` during a test or fixture.
+   * pytest runs the test as normal UNTIL `pytest.xfail()` is called.
+   * When `pytest.xfail()` is called, the test execution stops and the test results in `XFAIL`.
+   * The rest of the test is not run.
+   * There is no way to get `XPASS` from `pytest.xfail()`.
+   * `xfail_strict` has no effect.
+
+
+There are times when we want a combination of these behaviors.
+
+* We don't know until runtime if we should mark a test as `xfail`.
+* We want the test run.
+* We want the possibility of both `XFAIL` and `XPASS` results.
+* We want to be able to use `xfail_strict=true` to alert us when the test starts passing.
+
+This plugin fills that gap.
+
+## Alternatives
+
+You can get around the same limitation yourself by adding the marker through the `requests` object:
+
+```python
+
+def test_something(request):
+     if (runtime_condition): 
+        request.node.add_marker(pytest.mark.xfail(reason='some reason'))
+     # ... rest of test
+```
+
+That's basically what this plugin does, just in a fixture.
+
 
 ## Example found in example/test_xfail.py
 
