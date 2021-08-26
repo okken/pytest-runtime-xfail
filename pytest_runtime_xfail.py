@@ -1,13 +1,12 @@
 """
-pytest_runtime_xfail package
+pytest plugin, providing a `runtime_xfail` fixture,
+which is callable as `runtime_xfail()`,
+to allow runtime decisions to mark a test as `xfail`.
 """
-
-__version__ = "1.0.0"
-"""
-pytest_runtime_xfail plugin
-"""
-
 import pytest
+
+__version__ = "1.0.1"
+
 
 @pytest.fixture()
 def runtime_xfail(request):
