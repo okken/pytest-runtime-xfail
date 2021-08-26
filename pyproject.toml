@@ -4,7 +4,7 @@ build-backend = "flit_core.buildapi"
 
 [tool.flit.metadata]
 dist-name = "pytest-runtime-xfail"
-module = "pytest_runtimexfail"
+module = "pytest_runtime_xfail"
 author = "Brian Okken"
 author-email = "brian+pypi@pythontest.com"
 home-page = "https://github.com/okken/pytest-runtime-xfail"
@@ -14,4 +14,4 @@ description-file = "README.md"
 requires-python=">=3.7"
 
 [tool.flit.entrypoints."pytest11"]
-runtimexfail = "pytest_runtimexfail"
+runtime-xfail = "pytest_runtime_xfail"
