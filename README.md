@@ -6,13 +6,14 @@ pytest allows you to mark tests as expected to fail, or xfail, in two ways.
    * pytest runs tests marked with `xfail` just like any other test.
    * If the test fails, it will result in `XFAIL`. 
    * If it passes, `XPASS`. Unless you have `xfail_strict=true` or `@pytest.mark.xfail(strict=True)`, in which case, passing xfail-marked tests will result in `FAIL`.
+      * This is useful to be alerted when an expected failing test starts to pass.
    
 2. `pytest.xfail()`. If you need information only known at runtime to decide if `xfail` is appropriate, you can call `pytest.xfail()` during a test or fixture. 
    * pytest runs the test as normal UNTIL `pytest.xfail()` is called.
    * When `pytest.xfail()` is called, the test execution stops and the test results in `XFAIL`.
    * The rest of the test is not run.
    * There is no way to get `XPASS` from `pytest.xfail()`.
-   * `xfail_strict` 
+   * `xfail_strict` has no effect.
 
 
 There are times where we want a combination of these behaviors.
